@@ -1,20 +1,25 @@
-User-agent: SemrushBot
-User-agent: SiteAuditBot
-User-agent: SemrushBot-BA
-User-agent: SemrushBot-SI
-User-agent: SemrushBot-SWA
-User-agent: SemrushBot-CT
-User-agent: SplitSignalBot
-User-agent: SemrushBot-COUB
-Disallow: /
-
 User-agent: *
-Allow: /
+Disallow: /embed.html
+Disallow: /embed
+
+# Allow specific pages for all crawlers
 Allow: /anime.html
 Allow: /anime
 Allow: /episode.html
 Allow: /episode
 Allow: /search.html
 Allow: /search
-Disallow: /embed.html
-Disallow: /embed
+
+# Specific crawlers allowed to crawl the entire site
+User-agent: SemrushBot
+User-agent: SemrushBot-BA
+User-agent: SemrushBot-SI
+User-agent: SemrushBot-SWA
+User-agent: SemrushBot-CT
+User-agent: SemrushBot-COUB
+User-agent: SplitSignalBot
+Allow: /
+
+# Block specific crawlers from crawling the entire site
+User-agent: SiteAuditBot
+Disallow: /
