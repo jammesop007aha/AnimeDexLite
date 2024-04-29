@@ -1,2 +1,2 @@
-<!-- Google AdSense code for in-article ad placement. -->
+<!-- Google In-article AdSense code -->
 <script data-ad-client="ca-pub-1333111495004223" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
