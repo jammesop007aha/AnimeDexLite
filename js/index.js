@@ -22,7 +22,7 @@ function getApiServer() {
 // Usefull functions
 
 // getJson is an async function that fetches JSON data from a given path and handles errors by retrying with a proxy server if needed.
-async function getJson(path, errCount = 0) {
+async function getJson(path: string, errCount = 0): Promise<any> {
     const ApiServer = getApiServer();
 
     let url = ApiServer + path;
@@ -48,13 +48,8 @@ async function getJson(path, errCount = 0) {
     }
 }
 
-// genresToString is a function that converts an array of genres into a comma-separated string.
-function genresToString(genres) {
-    return genres.join(", ");
-}
-
 // shuffle is a function that reorders the elements in an array randomly.
-function shuffle(array) {
+function shuffle(array: any[]) {
     let currentIndex = array.length,
         randomIndex;
 
@@ -75,18 +70,18 @@ function shuffle(array) {
 }
 
 // Adding slider animes (trending animes from anilist)
-async function getTrendingAnimes(data) {
+async function getTrendingAnimes(data: any[]) {
     // SLIDER_HTML is a string that contains the HTML for the slider animes.
     let SLIDER_HTML = "";
 
     for (let pos = 0; pos < data.length; pos++) {
-        let anime = data[pos];
-        let title = anime["title"]["userPreferred"];
-        let type = anime["format"];
-        let status = anime["status"];
-        let genres = genresToString(anime["genres"]);
-        let description = anime["description"];
-        let url = "./anime.html?anime_id=" + encodeURIComponent(title);
+        const anime = data[pos];
+        const title = anime["title"]["userPreferred"];
+        const type = anime["format"];
+        const status = anime["status"];
+        const genres = anime["genres"].join(", ");
+        const description = anime["description"];
+        const url = "./anime.html?anime_id=" + encodeURIComponent(title);
 
         let poster = anime["bannerImage"];
         if (poster == null) {
@@ -105,15 +100,15 @@ async function getTrendingAnimes(data) {
 }
 
 // Adding popular animes (popular animes from gogoanime)
-async function getPopularAnimes(data) {
+async function getPopularAnimes(data: any[]) {
     let POPULAR_HTML = "";
 
     for (let pos = 0; pos < data.length; pos++) {
-        let anime = data[pos];
-        let title = anime["title"];
-        let id = anime["id"];
-        let url = "./anime.html?anime_id=" + id;
-        let image = anime["image"];
+        const anime = data[pos];
+        const title = anime["title"];
+        const id = anime["id"];
+        const url = "./anime.html?anime_id=" + id;
+        const image = anime["image"];
         let subOrDub;
         if (title.toLowerCase().includes("dub")) {
             subOrDub = "DUB";
@@ -136,12 +131,12 @@ async function getRecentAnimes(page = 1) {
     let RECENT_HTML = "";
 
     for (let pos = 0; pos < data.length; pos++) {
-        let anime = data[pos];
-        let title = anime["title"];
-        let id = anime["id"].split("-episode-")[0];
-        let url = "./anime.html?anime_id=" + id;
-        let image = anime["image"];
-        let ep = anime["episode"].split(" ")[1];
+        const anime = data[pos];
+        const title = anime["title"];
+        const id = anime["id"].split("-episode-")[0];
+        const url = "./anime.html?anime_id=" + id;
+        const image = anime["image"];
+        const ep = anime["episode"].split(" ")[1];
         let subOrDub;
         if (title.toLowerCase().includes("dub")) {
             subOrDub = "DUB";
@@ -162,7 +157,7 @@ let slideIndex = 0;
 let clickes = 0;
 
 // showSlides is a function that displays a specific slide in the slider.
-function showSlides(n) {
+function showSlides(n: number) {
     let i;
     let slides = document.getElementsByClassName("mySlides");
     if (n > slides.length) {
@@ -197,27 +192,29 @@ async function showSlides2() {
 }
 
 // plusSlides is a function that changes the slide in the slider by a given amount.
-function plusSlides(n) {
+function plusSlides(n: number) {
     showSlides((slideIndex += n));
     clickes = 1;
 }
 
 // currentSlide is a function that changes the slide in the slider to a specific index.
-function currentSlide(n) {
+function currentSlide(n: number) {
     showSlides((slideIndex = n));
     clickes = 1;
 }
 
 // RefreshLazyLoader is a function that updates the Intersection Observer for lazy loading images.
 async function RefreshLazyLoader() {
-    const imageObserver = new IntersectionObserver((entries, imgObserver) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const lazyImage = entry.target;
-                lazyImage.src = lazyImage.dataset.src;
-            }
-        });
-    });
+    const imageObserver = new IntersectionObserver(
+        (entries, imgObserver) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const lazyImage = entry.target;
+                    lazyImage.src = lazyImage.dataset.src;
+                }
+            });
+        }
+    );
     const arr = document.querySelectorAll("img.lzy_img");
     arr.forEach((v) => {
         imageObserver.observe(v);
@@ -225,7 +222,7 @@ async function RefreshLazyLoader() {
 }
 
 // sleep is a function that returns a Promise that resolves after a specified number of milliseconds.
-function sleep(ms) {
+function sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
@@ -238,7 +235,20 @@ async function loadAnimes() {
     try {
         if (isLoading == false) {
             isLoading = true;
-            await getRecentAnimes(page);
+            const data = await getJson(recentapi + page);
+            const animes = data["results"];
+            const RECENT_HTML = animes
+                .map(
+                    (anime: any) => `<a href="./anime.html?anime_id=${anime["id"].split(
+                        "-episode-"
+                    )[0]}"><div class="poster la-anime"> <div id="shadow1" class="shadow"><div class="dubb">${
+                        anime["subbed"] ? "SUB" : "DUB"
+                    }</div><div class="dubb dubb2">EP ${anime["episode"].split(
+                        " "
+                    )[1]}</div> </div><div id="shadow2" class="shadow"> <img class="lzy_img" src="./static/loading1.gif" data-src="${anime["image"]}"> </div><div class="la-details"> <h3>${anime["title"]}</h3></div></div></a>`
+                )
+                .join("");
+            document.querySelector(".recento").innerHTML += RECENT_HTML;
             RefreshLazyLoader();
             console.log("Recent animes loaded");
             page += 1;
@@ -266,28 +276,29 @@ window.addEventListener("scroll", function () {
 // Running functions
 
 // getJson is called with the IndexApi to fetch the initial data for the page.
-getJson(IndexApi).then((data) => {
-    data = data["results"];
-    const anilistTrending = shuffle(data["anilistTrending"]);
-    const gogoanimePopular = shuffle(data["gogoPopular"]);
+(async () => {
+    try {
+        const data = await getJson(IndexApi);
+        const anilistTrending = shuffle(data["anilistTrending"]);
+        const gogoanimePopular = shuffle(data["gogoPopular"]);
 
-    // getTrendingAnimes is called with the anilistTrending data to display the trending animes in the slider.
-    getTrendingAnimes(anilistTrending).then((data) => {
+        // getTrendingAnimes is called with the anilistTrending data to display the trending animes in the slider.
+        await getTrendingAnimes(anilistTrending);
         RefreshLazyLoader();
         showSlides(slideIndex);
         showSlides2();
         console.log("Sliders loaded");
-    });
 
-    // getPopularAnimes is called with the gogoanimePopular data to display the popular animes.
-    getPopularAnimes(gogoanimePopular).then((data) => {
+        // getPopularAnimes is called with the gogoanimePopular data to display the popular animes.
+        await getPopularAnimes(gogoanimePopular);
         RefreshLazyLoader();
         console.log("Popular animes loaded");
-    });
 
-    // getRecentAnimes is called with page 1 to display the recent animes.
-    getRecentAnimes(1).then((data) => {
+        // getRecentAnimes is called with page 1 to display the recent animes.
+        await getRecentAnimes(1);
         RefreshLazyLoader();
         console.log("Recent animes loaded");
-    });
+    } catch (error) {
+        console.error(error);
+    }
 });
