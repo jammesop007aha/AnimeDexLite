@@ -1,33 +1,30 @@
 // a.js - This file contains the JavaScript code for the 'a' feature.
 
-// Set the initial values for variables 'x' and 'y'
 let x = 0;
 let y = 0;
 
-// Function to increment the value of 'x'
-function incrementX() {
+const incrementX = () => {
   x++;
-}
+};
 
-// Function to increment the value of 'y'
-function incrementY() {
+const incrementY = () => {
   y++;
-}
+};
 
-// Function to perform some action with incremented values
-function doSomethingWithIncrementedValues() {
+const doSomethingWithIncrementedValues = () => {
   incrementX();
   incrementY();
   console.log(`x: ${x}, y: ${y}`);
-}
-
-// Export the incrementX, incrementY and doSomethingWithIncrementedValues functions
-// to be used in other modules
-module.exports = {
-  incrementX,
-  incrementY,
-  doSomethingWithIncrementedValues,
 };
+
+const init = () => {
+  document.getElementById('increment-x-btn').addEventListener('click', () => {
+    incrementX();
+    doSomethingWithIncrementedValues();
+  });
+};
+
+export { init };
 
 
 <!DOCTYPE html>
@@ -39,10 +36,8 @@ module.exports = {
     <!-- Include the JavaScript file for the 'a' feature -->
     <script src="../js/a.js" defer></script>
   </head>
-  <body>
+  <body onload="init()">
     <!-- Content for the 'a' feature goes here -->
-    <button onclick="incrementX(); doSomethingWithIncrementedValues();">
-      Click me
-    </button>
+    <button id="increment-x-btn">Click me</button>
   </body>
 </html>
