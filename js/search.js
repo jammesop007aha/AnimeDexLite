@@ -78,13 +78,12 @@ async function searchAnime(query, page = 1) {
     const animes = data["results"];
     const contentdiv = document.getElementById("latest2");
     const loader = document.getElementById("load");
-    let html = "";
 
     if (animes.length === 0) {
       throw new Error("No results found");
     }
 
-    html = animes
+    const html = animes
       .map(
         (anime) => `<a href="./anime.html?anime_id=${anime["id"]}">
           <div class="anime-card">
@@ -105,3 +104,13 @@ async function searchAnime(query, page = 1) {
     console.error(error.message);
   }
 }
+
+// Call the searchAnime function when the search button is clicked
+const searchButton = document.getElementById("search-button");
+searchButton.addEventListener("click", () => {
+  const queryInput = document.getElementById("search-query");
+  const query = queryInput.value.trim();
+  if (query) {
+    searchAnime(query);
+  }
+});
