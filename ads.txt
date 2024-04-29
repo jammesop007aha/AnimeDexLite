@@ -1,18 +1,20 @@
 <!-- Google In-article AdSense code -->
 <div id="google-adsense-in-article">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <ins class="adsbygoogle"
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/javascript"></script>
+  <ins class="adsbygoogle adsbygoogle-fluid"
        style="display:block"
        data-ad-client="ca-pub-1333111495004223"
        data-ad-format="fluid"
-       data-ad-layout-key="-fb+5w+4j-7s+4w"></ins>
-  <script>
+       data-ad-layout-key="-fb+5w+4j-7s+4w"
+       data-ad-slot="1234567890"
+       data-full-width-responsive="true"></ins>
+  <script type="text/javascript">
      (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
 </div>
 
 <!-- Add a loading indicator to improve user experience -->
-<style>
+<style type="text/css">
   #google-adsense-in-article::before {
     content: 'Ads by Google';
     display: block;
@@ -22,7 +24,7 @@
     font-size: 14px;
   }
 
-  #google-adsense-in-article ins {
+  .adsbygoogle-fluid {
     height: 250px;
     background-color: #eee;
     border: 1px solid #ddd;
@@ -30,7 +32,8 @@
     line-height: 250px;
   }
 </style>
-<script>
+
+<script type="text/javascript">
   // Load the ad after the page loads to improve performance
   window.onload = function() {
     (adsbygoogle = window.adsbygoogle || []).push({});
