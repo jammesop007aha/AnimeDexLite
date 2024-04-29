@@ -1,2 +1,26 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Auto-detect text files and perform LF normalization
+* ^(?i)(?!(\.|/)(bin|obj|out|exe|class|lib|ilk|pdb|exp|libx|gdb|idb|aps|sbr|ipdb|lo\
+g|tlb|ncb|suo|res|objd|pch))(?i).*\.(as?m?x?|bat|cmd|c|cc|cxx|cpp|c++|h|hh|hxx|hpp|
+h++|cs|d|di|dxl|rc|bas|txt|def|dat|db|description|diz|embed|ini|inf|url|htm|html|log|
+properties|resources|settings|sitemap|xml|xsd|xsl|xslt|vcxproj|vcxproj.filters|vcproj|
+vcproj.filters|filters|isl|islmap|ifc|p|pas|pl|pm|prg|pro|py|ps1|psm1|psc1|sh|bash|bat|
+cmd|javascript|json|css|sql|java|vb|vbs|plist|yaml|yml|rc2|rct|po|pot|poa|properties|dtd|
+po|pot|a|asm|inc|cpp|c|h|hpp|m|mm|inl|idc|ddl|odl|rc|rtf|htm|html|xsl|xslt|aspx|ascx|
+asmx|ashx|asmx|axd|cs|config|config.xml|webinfo|licx|licx.xml|pdb|resx|resources|resw|
+resources|rdl|rules|ruleset|safecontrol|xsf|xsd|xss|xsc|xaml|xps|xsl|xslt|xss|xsc|xaml|
+xps|csproj|vbproj|sln|suo|tlh|tli|tlb|idl|ncb|resjson|vcxitems|vcxproj.user|user|identi
+ty|manifest|filters|pri|prixml|wxi|wxs|wxsl|xfrm|xsd|xsl|xslt|cs|bas|vb|vbs|ps1|psm1|psc1
+|js|json|config|cfg|hta|jsm|wsc|wsf|wpl|wtc|xml|xsd|xsl|xslt|xps|xaml|xquery|xqy|xq|xql|
+xqm|xproj|user|appx|appxmanifest|appxrecipe|appxblockmap|appxblockmeta|cert|cub|dae|dat|
+dds|def|dll|dll.config|dll.manifest|dll.xml|exp|exe|fnt|gif|grf|hlsl|ico|ilk|inf|ins|int
+|itf|jse|jsx|key|lib|library|lic|licx|manifest|map|mcm|mda|mdf|mof|mpl|msi|msp|msstyles|
+mui|nls|ocx|odh|odl|ods|oft|osd|pdb|pfx|pict|pkm|plist|png|pot|ppam|ppsm|ppsx|ppt|pptm|p
+ptx|prf|prg|ps1|ps1xml|psc1|psd1|psdm1|psm1|psxml|pub|pyd|pyw|r32|raf|rar|res|resx|rgss
+|rlib|rll|rsrc|rtf|scf|sct|shy|shx|sig|sil|sln|snk|spe|sql|sqlce|sqlite|srf|stl|svc|swf
+|sys|tlb|tlh|tli|tmp|txt|vcproj|vdf|vdx|vml|vsd|vss|vssscc|vst|vstemplate|vsw|vsx|vsx
+ml|vtx|wav|wcm|wdb|wks|wma|wmv|wnf|wsp|wsdl|wsf|wsh|x32|xap|xbel|xdr|xht|xhtml|xla|xl
+m|xls|xlsb|xlsm|xlsx|xlt|xltm|xltx|xlw|xps|xsd|xsf|xsl|xslt|xsn|xss|xtp|xwd|xwm|z32|z
+ip|zip)\r?$
+:EOL_normalize
+	${EOL/$\r\n/\n}
+.
