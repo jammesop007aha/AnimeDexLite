@@ -30,3 +30,20 @@ Allow: /search/
 User-agent: SiteAuditBot
 Disallow: /
 
+# Add the following lines to block bad bots and improve website security
+User-agent: *
+Disallow: /cgi-bin/
+Disallow: /wp-config.php
+Disallow: /wp-login.php
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /install/
+Disallow: /upgrade/
+
+# Allow good bots to crawl the site
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Slurp
+User-agent: DuckDuckBot
+Allow: /
+
