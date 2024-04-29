@@ -1,2 +1,12 @@
 <!-- Google In-article AdSense code -->
-<script data-ad-client="ca-pub-1333111495004223" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<div id="google-adsense-in-article" style="display:none;">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-1333111495004223"
+       data-ad-format="fluid"
+       data-ad-layout-key="-fb+5w+4j-7s+4w"></ins>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
