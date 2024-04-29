@@ -1,1 +1,2 @@
-google.com, pub-1333111495004223, DIRECT, f08c47fec0942fa0
+<!-- Google AdSense code for in-article ad placement. -->
+<script data-ad-client="ca-pub-1333111495004223" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
