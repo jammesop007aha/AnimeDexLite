@@ -22,6 +22,15 @@ const init = () => {
     incrementX();
     doSomethingWithIncrementedValues();
   });
+
+  // Adding a check to make sure the element exists before trying to add the event listener
+  const incrementYBtn = document.getElementById('increment-y-btn');
+  if (incrementYBtn) {
+    incrementYBtn.addEventListener('click', () => {
+      incrementY();
+      console.log(`x: ${x}, y: ${y}`);
+    });
+  }
 };
 
 export { init };
@@ -36,8 +45,16 @@ export { init };
     <!-- Include the JavaScript file for the 'a' feature -->
     <script src="../js/a.js" defer></script>
   </head>
-  <body onload="init()">
+  <body>
     <!-- Content for the 'a' feature goes here -->
-    <button id="increment-x-btn">Click me</button>
+    <button id="increment-x-btn">Increment X</button>
+    <button id="increment-y-btn">Increment Y</button>
+
+    <!-- Make sure the DOM is loaded before calling the init function -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        init();
+      });
+    </script>
   </body>
 </html>
