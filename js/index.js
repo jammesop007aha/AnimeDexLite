@@ -6,22 +6,11 @@ const RecentApi = "/recent/";
 // Api Server Manager
 const AvailableServers = ["https://api100.anime-dex.workers.dev"];
 
-function getApiServer(): string {
-  return AvailableServers[Math.floor(Math.random() * AvailableServers.length)];
-}
+type JsonPromise<T> = Promise<T | Error>;
 
-// Usefull functions
-async function getJson(path: string, errCount = 0): Promise<any> {
+async function getJson<T>(path: string): JsonPromise<T> {
   const ApiServer = getApiServer();
   let url = ApiServer + path;
-
-  if (errCount > 2) {
-    throw `Too many errors while fetching ${url}`;
-  }
-
-  if (errCount > 0) {
-    url = ProxyApi + url;
-  }
 
   try {
     const response = await fetch(url);
@@ -31,24 +20,15 @@ async function getJson(path: string, errCount = 0): Promise<any> {
     return await response.json();
   } catch (errors) {
     console.error(errors);
-    return getJson(path, errCount + 1);
+    return Promise.reject(errors);
   }
 }
 
 function shuffle<T>(array: T[]): T[] {
-  let currentIndex = array.length,
-    randomIndex;
-
-  while (currentIndex > 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
-
   return array;
 }
 
@@ -130,7 +110,7 @@ class RecentAnimes {
 
   async loadRecentAnimes(page: number = 1): Promise<void> {
     try {
-      const data = await getJson(RecentApi + page);
+      const data = await getJson<{ results: any[] }>(RecentApi + page);
       const animes = data.results;
 
       const RECENT_HTML = animes
@@ -229,7 +209,7 @@ function RefreshLazyLoader(): void {
 }
 
 function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return Promise.resolve();
 }
 
 // To load more animes when scrolled to bottom
@@ -240,7 +220,7 @@ async function loadAnimes(): Promise<void> {
   try {
     if (isLoading == false) {
       isLoading = true;
-      const data = await getJson(RecentApi + page);
+      const data = await getJson<{ results: any[] }>(RecentApi + page);
       const animes = data.results;
       const RECENT_HTML = animes
         .map(
@@ -278,31 +258,19 @@ async function loadAnimes(): Promise<void> {
 }
 
 // Add a scroll event listener
-window.addEventListener("scroll", function () {
-  // Calculate how far the user has scrolled
-  const scrollPosition = window.scrollY;
-  const windowHeight = window.innerHeight;
-  const documentHeight = document.documentElement.scrollHeight;
-
-  if (scrollPosition + 3 * windowHeight >= documentHeight) {
-    loadAnimes();
-  }
-});
-
-// Running functions
-(async () => {
+window.addEventListener("DOMContentLoaded", () => {
   try {
-    const data = await getJson(IndexApi);
-    const anilistTrending = shuffle(data.anilistTrending);
-    const gogoanimePopular = shuffle(data.gogoPopular);
+    const data = getJson<{ anilistTrending: any[]; gogoPopular: any[] }>(IndexApi);
+    const anilistTrending = (await data).anilistTrending;
+    const gogoanimePopular = (await data).gogoPopular;
 
-    new Slider(anilistTrending, document.querySelector(".slideshow-container")).createSlides();
+    new Slider(shuffle(anilistTrending), document.querySelector(".slideshow-container")).createSlides();
     RefreshLazyLoader();
     showSlides(slideIndex);
     showSlides2();
     console.log("Sliders loaded");
 
-    new PopularAnimes(gogoanimePopular, document.querySelector(".popularg")).createPopularAnimes();
+    new PopularAnimes(shuffle(gogoanimePopular), document.querySelector(".popularg")).createPopularAnimes();
     RefreshLazyLoader();
     console.log("Popular animes loaded");
 
@@ -313,4 +281,4 @@ window.addEventListener("scroll", function () {
   } catch (error) {
     console.error(error);
   }
-})();
+});
