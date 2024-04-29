@@ -1,4 +1,4 @@
-// API URLs
-const PROXY_API_URL = "https://proxy.techzbots1.workers.dev/?u="; // Proxy API URL for fetching data from external servers
-const ANIME_API_BASE_PATH = "/anime/"; // Anime API URL base path
-const EPISODE_API_BASE_PATH = "/episode/"; // Episode API URL base path
+// API configurations
+const PROXY_API_BASE_URL = "https://proxy.techzbots1.workers.dev/?u="; // Base URL for the proxy API used to fetch data from external servers
+const ANIME_API_BASE_PATH = "/anime/"; // Base path for the anime-related API endpoints
+const EPISODE_API_BASE_PATH = "/episode/"; // Base path for the episode-related API endpoints
