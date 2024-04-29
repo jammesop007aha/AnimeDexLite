@@ -1,20 +1,22 @@
 /* Base Styles */
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* Global Styles */
 body,
 html {
   height: 100%;
   width: 100%;
-  background-color: #14151a;
+  background-color: var(--color-bg);
   font-family: 'Montserrat', sans-serif;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  line-height: 1.5;
   user-select: none;
 }
 
@@ -27,7 +29,15 @@ img {
   vertical-align: middle;
 }
 
-/* Global Styles */
+/* Custom Styles */
+:root {
+  --color-primary: #eb3349;
+  --color-secondary: #f45c43;
+  --color-bg: #14151a;
+  --color-text: white;
+  --color-text-light: rgba(255, 255, 255, 0.3);
+}
+
 #load {
   text-align: center;
   padding: 20px;
@@ -52,7 +62,7 @@ footer div {
 }
 
 footer a {
-  color: white;
+  color: var(--color-text);
   font-size: 11px;
   font-weight: 500;
 }
@@ -69,7 +79,6 @@ footer a {
   }
 }
 
-/* Custom Styles */
 .poster {
   text-align: center;
   display: inline-block;
@@ -106,13 +115,13 @@ section img {
 }
 
 #head-div {
-  background: linear-gradient(to right, #eb3349 40%, #f45c43);
+  background: linear-gradient(to right, var(--color-primary) 40%, var(--color-secondary));
   text-align: center;
   height: 86px;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
   font-size: x-large;
-  color: white;
+  color: var(--color-text);
 }
 
 i {
@@ -120,7 +129,7 @@ i {
 }
 
 h2 {
-  color: #ed3832;
+  color: var(--color-primary);
   font-weight: 500;
   width: 100%;
   font-size: 20px;
@@ -134,7 +143,7 @@ h2 {
 }
 
 #latest2 a {
-  color: white;
+  color: var(--color-text);
   text-decoration: none;
 }
 
@@ -186,7 +195,7 @@ h2 {
 }
 
 .dubb {
-  color: white;
+  color: var(--color-text);
   background-color: red;
   position: absolute;
   bottom: 10px;
@@ -198,6 +207,7 @@ h2 {
   font-size: 12px;
   padding: 2px 4px;
   z-index: 5;
+  white-space: nowrap;
 }
 
 .la-details {
@@ -207,6 +217,7 @@ h2 {
   box-sizing: border-box;
   padding: 10px;
   overflow: hidden;
+  min-height: 85px;
 }
 
 .la-details h3 {
@@ -214,7 +225,7 @@ h2 {
   font-size: 14px;
   text-align: left;
   width: 100%;
-  color: white;
+  color: var(--color-text);
   font-weight: 500;
   margin-bottom: 8px;
   height: fit-content;
@@ -244,7 +255,7 @@ h2 {
 }
 
 .la-details span {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-light);
   font-size: 12px;
 }
 
@@ -274,9 +285,10 @@ h2 {
   padding-left: 15px;
   font-size: 14px;
   font-weight: 400;
-  color: black;
+  color: var(--color-text);
   overflow: visible;
   width: calc(100% - 40px);
+  placeholder-color: var(--color-text-light);
 }
 
 #search-div button {
@@ -307,6 +319,7 @@ h2 {
 
 #query:focus {
   border: none;
+  outline: none;
 }
 
 /* Media Queries */
@@ -344,7 +357,7 @@ h2 {
     padding-left: 15px;
     font-size: 14px;
     font-weight: 400;
-    color: black;
+    color: var(--color-text);
     overflow: visible;
     width: calc(100% - 55px);
   }
@@ -362,47 +375,4 @@ h2 {
     margin: 0;
   }
 
-  #search-div form {
-    height: 100%;
-    width: 100%;
-  }
-
-  #query {
-    width: 200px;
-    height: 40px;
-  }
-
-  #query:focus {
-    border: none;
-  }
-}
-
-@media (min-width: 1200px) {
-  .la-anime {
-    max-width: 220px;
-  }
-
-  #title1 {
-    width: 100%;
-    text-align: center;
-  }
-
-  #search-div {
-    position: absolute;
-    right: 0;
-    top: 25px;
-  }
-}
-
-/* Font Faces */
-@font-face {
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw0aXpsog.woff2) format("woff2");
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
-      U+FE2E-FE2F;
-}
-
-@font-face {
-  font-family
+  #search-div
