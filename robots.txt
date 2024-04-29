@@ -1,4 +1,4 @@
-# This is a generic robots.txt file for a website
+# This is an optimized robots.txt file for a website
 
 # Allow all crawlers access to the homepage and root directory
 User-agent: *
@@ -11,6 +11,7 @@ Disallow: /wp-includes/
 Disallow: /xmlrpc.php
 Disallow: /readme.html
 Disallow: /license.txt
+Disallow: /private/
 
 # Allow specific crawlers to access specific directories and files
 User-agent: SemrushBot
@@ -20,14 +21,10 @@ User-agent: SemrushBot-SWA
 User-agent: SemrushBot-CT
 User-agent: SemrushBot-COUB
 User-agent: SplitSignalBot
-Allow: /embed.html
-Allow: /embed
-Allow: /anime.html
-Allow: /anime
-Allow: /episode.html
-Allow: /episode
-Allow: /search.html
-Allow: /search
+Allow: /embed/
+Allow: /anime/
+Allow: /episode/
+Allow: /search/
 
 # Block specific crawlers from accessing the entire site
 User-agent: SiteAuditBot
