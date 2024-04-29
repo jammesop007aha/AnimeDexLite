@@ -6,12 +6,13 @@ const recommendationsapi = "/recommendations/"; // Base URL for anime recommenda
 
 // Api Server Manager
 
-const AvailableServers = [
+const AvailableServers: readonly string[] = [
   "https://api100.anime-dex.workers.dev",
-] as const; // List of available API servers
+]; // List of available API servers
 
 /**
  * Returns a random API server from the available list
+ * @returns {string} A random API server
  */
 function getApiServer(): string {
   if (AvailableServers.length === 0) {
@@ -22,6 +23,15 @@ function getApiServer(): string {
 }
 
 // Usefull functions
+
+/**
+ * A type guard function for checking if an error is an instance of JsonError
+ * @param {unknown} error The error object to check
+ * @returns {error is JsonError} True if the error is an instance of JsonError, false otherwise
+ */
+function isJsonError(error: unknown): error is { message: string } {
+  return typeof error === "object" && "message" in error;
+}
 
 /**
  * Fetches data from an API endpoint and returns it as JSON
@@ -39,22 +49,28 @@ async function getJson<T>(path: string, errCount = 0): Promise<T> {
   }
 
   try {
-    const response = await fetch(`${url}`, { method: 'GET', referrerPolicy: 'no-referrer-when-downgrade' });
+    const response = await fetch(`${url}`, { method: "GET", referrerPolicy: "no-referrer-when-downgrade" });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
     }
 
     return await response.json(); // Return the JSON data
-  } catch (errors) {
-    console.error(errors); // Log any fetch errors
+  } catch (error) {
+    console.error(error); // Log any fetch errors
 
     if (path.startsWith(recommendationsapi)) {
       // Use proxy for recommendations API
       const proxyUrl = `${ProxyApi}${url}`;
-      return getJson<T>(path, errCount + 1);
+      try {
+        return await getJson<T>(proxyUrl, errCount + 1);
+      } catch (error) {
+        if (isJsonError(error)) {
+          throw error;
+        }
+      }
     } else {
-      throw errors;
+      throw error;
     }
   }
 }
@@ -112,3 +128,5 @@ function getAnilistTitle(title: Record<string, string>): string {
   }
 }
 
+
+type JsonError = { message: string };
