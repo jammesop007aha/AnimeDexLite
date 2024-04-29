@@ -33,6 +33,11 @@ async function getJson(path, options = {}) {
   for (let i = 0; i < retry; i++) {
     try {
       const response = await fetch(url, { headers: { referer } });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       return await response.json();
     } catch (error) {
       if (i === retry - 1) {
@@ -76,7 +81,7 @@ async function searchAnime(query, page = 1) {
     let html = "";
 
     if (animes.length === 0) {
-      throw "No results found";
+      throw new Error("No results found");
     }
 
     html = animes
@@ -97,6 +102,6 @@ async function searchAnime(query, page = 1) {
     loader.style.display = "none";
     refreshLazyLoader();
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 }
