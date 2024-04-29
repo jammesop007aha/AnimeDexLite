@@ -18,7 +18,7 @@ function getApiServer(): string {
 
 async function getJson<T>(path: string, errCount = 0): Promise<T> {
   const ApiServer = getApiServer();
-  let url = ApiServer + path;
+  const url = `${ApiServer}${path}`;
 
   if (errCount > 2) {
     throw `Too many errors while fetching ${url}`; // Throws an error if there are too many fetch errors
@@ -27,13 +27,18 @@ async function getJson<T>(path: string, errCount = 0): Promise<T> {
   if (errCount > 0) {
     // Retry fetch using proxy
     console.log("Retrying fetch using proxy");
-    url = ProxyApi + url;
+    const proxyUrl = `${ProxyApi}${url}`;
+    try {
+      const response = await fetch(proxyUrl, { method: 'GET', referrerPolicy: 'no-referrer-when-downgrade' });
+      return await response.json(); // Return the JSON data
+    } catch (errors) {
+      console.error(errors); // Log any fetch errors
+      return getJson<T>(path, errCount + 1); // Retry fetching the data with an increased error count
+    }
   }
 
   try {
-    const _url_of_site = new URL(window.location.href); // Create a new URL object from the current page URL
-    const referer = _url_of_site.origin; // Get the origin of the current page URL
-    const response = await fetch(url, { headers: { referer: referer } }); // Fetch the data from the API server with the referer header set to the current page URL origin
+    const response = await fetch(`${url}`, { method: 'GET', referrerPolicy: 'no-referrer-when-downgrade' });
     return await response.json(); // Return the JSON data
   } catch (errors) {
     console.error(errors); // Log any fetch errors
@@ -48,18 +53,18 @@ function getGenreHtml(genres: string[]): string {
 async function RefreshLazyLoader(): Promise<void> {
   const imageObserver = new IntersectionObserver(
     (entries, imgObserver) => {
-      entries.forEach((entry) => {
+      for (const entry of entries) {
         if (entry.isIntersecting) {
           const lazyImage = entry.target;
           lazyImage.src = lazyImage.dataset.src; // Set the source of the lazy-loaded image to its data-src attribute value
         }
-      });
+      }
     }
   );
   const arr = document.querySelectorAll("img.lzy_img");
-  arr.forEach((v) => {
+  for (const v of arr) {
     imageObserver.observe(v); // Observe all lazy-loaded images and load them when they become visible
-  });
+  }
 }
 
 function getAnilistTitle(title: { [key: string]: string }): string {
@@ -73,4 +78,5 @@ function getAnilistTitle(title: { [key: string]: string }): string {
     return title["native"]; // Return the native title if it exists
   } else {
     return "Unknown"; // Return "Unknown" if no title is found
- 
+  }
+}
