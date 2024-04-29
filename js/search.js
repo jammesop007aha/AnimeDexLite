@@ -1,28 +1,28 @@
 // Api urls
-const ProxyApi = "https://proxy.techzbots1.workers.dev/?u=";
-const searchapi = "/search/";
+const PROXY_API = "https://proxy.techzbots1.workers.dev/?u=";
+const SEARCH_API = "/search/";
 
 // Api Server Manager
-const AvailableServers = [
+const AVAILABLE_SERVERS = [
   "https://api100.anime-dex.workers.dev",
   "https://api200.anime-dex.workers.dev",
   "https://api300.anime-dex.workers.dev",
 ];
 
 function getApiServer() {
-  const weights = AvailableServers.map((server) => server.length);
+  const weights = AVAILABLE_SERVERS.map((server) => server.length);
   const totalWeight = weights.reduce((acc, weight) => acc + weight, 0);
   const randomValue = Math.random() * totalWeight;
   let weightSum = 0;
 
-  for (let i = 0; i < AvailableServers.length; i++) {
+  for (let i = 0; i < AVAILABLE_SERVERS.length; i++) {
     weightSum += weights[i];
     if (randomValue < weightSum) {
-      return AvailableServers[i];
+      return AVAILABLE_SERVERS[i];
     }
   }
 
-  return AvailableServers[0];
+  return AVAILABLE_SERVERS[0];
 }
 
 async function getJson(path, options = {}) {
@@ -50,19 +50,22 @@ function sentenceCase(str) {
   return str.replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-async function RefreshLazyLoader() {
+function handleImageLoad(event) {
+  const imgElement = event.target;
+  imgElement.classList.remove("lzy_img");
+}
+
+function refreshLazyLoader() {
   const arr = document.querySelectorAll("img.lzy_img");
   arr.forEach((v) => {
-    v.addEventListener("load", () => {
-      v.classList.remove("lzy_img");
-    });
+    v.addEventListener("load", handleImageLoad);
     v.src = v.dataset.src;
   });
 }
 
-async function SearchAnime(query, page = 1) {
+async function searchAnime(query, page = 1) {
   try {
-    const data = await getJson(searchapi + query + "?page=" + page, {
+    const data = await getJson(SEARCH_API + query + "?page=" + page, {
       referer: window.location.origin,
       retry: 3,
     });
@@ -92,7 +95,7 @@ async function SearchAnime(query, page = 1) {
 
     contentdiv.innerHTML = html;
     loader.style.display = "none";
-    RefreshLazyLoader();
+    refreshLazyLoader();
   } catch (error) {
     console.error(error);
   }
