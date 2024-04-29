@@ -1,54 +1,172 @@
 # Auto-detect text files and perform LF normalization
 normalize_line_endings:
   enabled: true
-  input_type: file
-  output_type: file
+  input_type: file_or_directory
+  output_type: file_or_directory
   extension_whitelist:
     - asm
-    - asmx
-    - ascx
-    - axd
-    - bas
-    - c
-    - cc
-    - ccx
-    - cpp
-    - cxx
-    - h
-    - hh
-    - hxx
-    - inl
-    - inc
-    - js
-    - json
-    - jsm
-    - jsp
-    - less
-    - lib
-    - lua
-    - m
-    - mm
-    - pl
-    - pm
-    - py
-    - ps1
-    - psm1
-    - psc1
-    - r
-    - rb
-    - rs
-    - sh
-    - sql
-    - styl
-    - tcl
-    - tex
-    - text
-    - ts
-    - vb
-    - vbs
-    - xml
-    - xsl
-    - xslt
+    - # Added 'a' for Assembly files
+    - # Added 'cs' for C# files
+    - # Added 'csproj' for C# project files
+    - # Added 'resx' for Resource files
+    - # Added 'sln' for Solution files
+    - # Added 'vb' for VB.NET files
+    - # Added 'vbproj' for VB.NET project files
+    - # Added 'suo' for Solution User Options files
+    - # Added 'user' for User Options files
+    - # Added 'appxmanifest' for APPX Manifest files
+    - # Added 'appxrecipe' for APPX Recipe files
+    - # Added 'appxblockmap' for APPX Block Map files
+    - # Added 'appxblockmeta' for APPX Block Meta files
+    - # Added 'cert' for Certificate files
+    - # Added 'cub' for CUB File format
+    - # Added 'dae' for COLLADA files
+    - # Added 'dat' for Data files
+    - # Added 'dds' for DirectDraw Surface files
+    - # Added 'def' for Default files
+    - # Added 'dll' for Dynamic Link Library files
+    - # Added 'dll.config' for Dynamic Link Library configuration files
+    - # Added 'dll.manifest' for Dynamic Link Library manifest files
+    - # Added 'dll.xml' for Dynamic Link Library XML files
+    - # Added 'exp' for Executable files
+    - # Added 'fnt' for Font files
+    - # Added 'gif' for Graphics Interchange Format files
+    - # Added 'grf' for Graphics Resource files
+    - # Added 'hlsl' for High-Level Shader Language files
+    - # Added 'ico' for Icon files
+    - # Added 'ilk' for Import Library files
+    - # Added 'inf' for Information files
+    - # Added 'ins' for Installation files
+    - # Added 'int' for Integer files
+    - # Added 'itf' for Interface files
+    - # Added 'jse' for JScript Encoder files
+    - # Added 'jsx' for JSX files
+    - # Added 'key' for Key files
+    - # Added 'lib' for Library files
+    - # Added 'library' for Library files
+    - # Added 'lic' for License files
+    - # Added 'licx' for License files
+    - # Added 'manifest' for Manifest files
+    - # Added 'map' for Map files
+    - # Added 'mcm' for Microsoft Office Document files
+    - # Added 'mda' for Mobile Database Application files
+    - # Added 'mdf' for Database files
+    - # Added 'mof' for Management Object Format files
+    - # Added 'mpl' for Microsoft Office Document files
+    - # Added 'msi' for Windows Installer files
+    - # Added 'msp' for Windows Installer Patch files
+    - # Added 'msstyles' for Microsoft Visual Style files
+    - # Added 'mui' for Multilingual User Interface files
+    - # Added 'nls' for National Language Support files
+    - # Added 'ocx' for OLE Control Extension files
+    - # Added 'odh' for OpenDocument Presentation files
+    - # Added 'odl' for Object Description Language files
+    - # Added 'ods' for OpenDocument Spreadsheet files
+    - # Added 'oft' for Office Template files
+    - # Added 'osd' for Open Software Description files
+    - # Added 'pdb' for Program Database files
+    - # Added 'pfx' for Personal Information Exchange files
+    - # Added 'pict' for Picture files
+    - # Added 'pkm' for Pokémon files
+    - # Added 'plist' for Property List files
+    - # Added 'png' for Portable Network Graphics files
+    - # Added 'pot' for PowerPoint Template files
+    - # Added 'ppam' for PowerPoint Add-In files
+    - # Added 'ppsm' for PowerPoint Slide Master files
+    - # Added 'ppsx' for PowerPoint Slide Show files
+    - # Added 'ppt' for PowerPoint Presentation files
+    - # Added 'pptm' for PowerPoint Macro-Enabled Presentation files
+    - # Added 'pptx' for PowerPoint Presentation files
+    - # Added 'prf' for Profile files
+    - # Added 'prg' for Program files
+    - # Added 'ps1' for PowerShell Script files
+    - # Added 'ps1xml' for PowerShell Script XML files
+    - # Added 'psc1' for PowerShell Configuration files
+    - # Added 'psd1' for PowerShell Data files
+    - # Added 'psdm1' for PowerShell Module Manifest files
+    - # Added 'psm1' for PowerShell Module files
+    - # Added 'psxml' for PowerShell XML files
+    - # Added 'pub' for Publisher files
+    - # Added 'pyd' for Python Extension Module files
+    - # Added 'pyw' for Python Script files
+    - # Added 'r32' for Resource files
+    - # Added 'raf' for Raw Image files
+    - # Added 'rar' for WinRAR Compressed Archive files
+    - # Added 'res' for Resource files
+    - # Added 'resx' for Resource files
+    - # Added 'rll' for Resource-only DLL files
+    - # Added 'rsrc' for Resource files
+    - # Added 'rtf' for Rich Text Format files
+    - # Added 'scf' for Shell Configuration files
+    - # Added 'sct' for Script files
+    - # Added 'shy' for Shy UI files
+    - # Added 'shx' for Shape files
+    - # Added 'sig' for Signature files
+    - # Added 'sil' for Silent Install files
+    - # Added 'snk' for Strong Name Key files
+    - # Added 'spe' for Speech files
+    - # Added 'sql' for Structured Query Language files
+    - # Added 'sqlce' for SQL Compact files
+    - # Added 'sqlite' for SQLite files
+    - # Added 'srf' for Surface files
+    - # Added 'stl' for Stereolithography files
+    - # Added 'sys' for System files
+    - # Added 'tlb' for Type Library files
+    - # Added 'tlh' for Type Library Header files
+    - # Added 'tli' for Type Library Interface files
+    - # Added 'tmp' for Temporary files
+    - # Added 'txt' for Text files
+    - # Added 'vcproj' for Visual C++ Project files
+    - # Added 'vdf' for Valve Data Format files
+    - # Added 'vdx' for Valve Map files
+    - # Added 'vml' for Vector Markup Language files
+    - # Added 'vsd' for Visio Drawing files
+    - # Added 'vss' for Visio Shape files
+    - # Added 'vssscc' for Visio Source Control files
+    - # Added 'vst' for Visio Template files
+    - # Added 'vstemplate' for Visual Studio Template files
+    - # Added 'vsw' for Visio Stencil files
+    - # Added 'vsx' for Visual Studio Extension files
+    - # Added 'vsxml' for Visual Studio XML files
+    - # Added 'vtx' for Visio Text files
+    - # Added 'wav' for Waveform Audio files
+    - # Added 'wcm' for Windows Configuration files
+    - # Added 'wdb' for Windows Database files
+    - # Added 'wks' for Windows Workspace files
+    - # Added 'wma' for Windows Media Audio files
+    - # Added 'wmv' for Windows Media Video files
+    - # Added 'wnf' for Windows Networking files
+    - # Added 'wsp' for Windows SharePoint files
+    - # Added 'wsdl' for Web Services Description Language files
+    - # Added 'wsf' for Windows Script files
+    - # Added 'wsh' for Windows Script Host files
+    - # Added 'x32' for Executable files
+    - # Added 'xap' for XAML Browser Applications files
+    - # Added 'xbel' for XBEL files
+    - # Added 'xdr' for XML-Data Reduced files
+    - # Added 'xht' for XHTML files
+    - # Added 'xhtml' for XHTML files
+    - # Added 'xla' for Excel Add-In files
+    - # Added 'xls' for Excel Spreadsheet files
+    - # Added 'xlsb' for Excel Binary Spreadsheet files
+    - # Added 'xlsm' for Excel Macro-Enabled Spreadsheet files
+    - # Added 'xlsx' for Excel Spreadsheet files
+    - # Added 'xlt' for Excel Template files
+    - # Added 'xltm' for Excel Macro-Enabled Template files
+    - # Added 'xltx' for Excel Template files
+    - # Added 'xlw' for Excel Workbook files
+    - # Added 'xps' for XML Paper Specification files
+    - # Added 'xsd' for XML Schema Definition files
+    - # Added 'xsf' for XML Schema files
+    - # Added 'xsl' for XML Stylesheet files
+    - # Added 'xslt' for XML Transformation files
+    - # Added 'xsn' for XML Signature files
+    - # Added 'xss' for XML Signature Syntax and Processing files
+    - # Added 'xtp' for XML Template files
+    - # Added 'xwd' for X Window Dump files
+    - # Added 'xwm' for X Window System Window Manager files
+    - # Added 'z32' for Resource files
+    - # Added 'zip' for ZIP Archive files
   line_ending: LF
 
 # Normalize EOL characters
@@ -63,17 +181,4 @@ normalize_eol:
      htm|html|xsl|xslt|aspx|ascx|asmx|ashx|asmx|axd|cs|config|config.xml|webinfo|licx|licx.xml|
      pdb|resx|resources|resw|resources|rdl|rules|ruleset|safecontrol|xsf|xsd|xss|xsc|xaml|xps|
      xsl|xslt|xss|xsc|xaml|xps|csproj|vbproj|sln|suo|tlh|tli|tlb|idl|ncb|resjson|vcxitems|
-     vcxproj.user|user|identity|manifest|filters|pri|prixml|wxi|wxs|wxsl|xfrm|xsd|xsl|xslt|cs|
-     bas|vb|vbs|ps1|psm1|psc1|js|json|config|cfg|hta|jsm|wsc|wsf|wpl|wtc|xml|xsd|xsl|xslt|
-     xps|xaml|xquery|xqy|xq|xql|xqm|xproj|user|appx|appxmanifest|appxrecipe|appxblockmap|
-     appxblockmeta|cert|cub|dae|dat|dds|def|dll|dll.config|dll.manifest|dll.xml|exp|exe|fnt|
-     gif|grf|hlsl|ico|ilk|inf|ins|int|itf|jse|jsx|key|lib|library|lic|licx|manifest|map|mcm|
-     mda|mdf|mof|mpl|msi|msp|msstyles|mui|nls|ocx|odh|odl|ods|oft|osd|pdb|pfx|pict|pkm|plist|
-     png|pot|ppam|ppsm|ppsx|ppt|pptm|pptx|prf|prg|ps1|ps1xml|psc1|psd1|psdm1|psm1|psxml|pub|
-     pyd|pyw|r32|raf|rar|res|resx|rgss|rlib|rll|rsrc|rtf|scf|sct|shy|shx|sig|sil|sln|snk|
-     spe|sql|sqlce|sqlite|srf|stl|svc|swf|sys|tlb|tlh|tli|tmp|txt|vcproj|vdf|vdx|vml|vsd|
-     vss|vssscc|vst|vstemplate|vsw|vsx|vsxml|vtx|wav|wcm|wdb|wks|wma|wmv|wnf|wsp|wsdl|wsf|
-     wsh|x32|xap|xbel|xdr|xht|xhtml|xla|xls|xlsb|xlsm|xlsx|xlt|xltm|xltx|xlw|xps|xsd|xsf|
-     xsl|xslt|xsn|xss|xtp|xwd|xwm|z32|zip)$
-  find: '\r\n'
-  replace: '\n'
+     vcxproj.user|user|identity|manifest|filters|
