@@ -91,7 +91,7 @@ class PopularAnimes {
               }</div>
             </div>
             <div id="shadow2" class="shadow">
-              <img class="lzy_img" src="./static/loading1.gif" data-src="${anime.image}" />
+              <img class="lzy_img" data-src="${anime.image}" />
             </div>
             <div class="la-details">
               <h3>${anime.title}</h3>
@@ -102,6 +102,22 @@ class PopularAnimes {
       .join("");
 
     this.target.innerHTML = POPULAR_HTML;
+
+    // Initialize lazy loading for popular animes
+    const imageObserver = new IntersectionObserver(
+      (entries, imgObserver) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const lazyImage = entry.target;
+            lazyImage.src = lazyImage.dataset.src;
+          }
+        });
+      }
+    );
+    const arr = document.querySelectorAll("img.lzy_img");
+    arr.forEach((v) => {
+      imageObserver.observe(v);
+    });
   }
 }
 
@@ -126,7 +142,7 @@ class RecentAnimes {
               <div class="dubb dubb2">EP ${anime.episode.split(" ")[1]}</div>
             </div>
             <div id="shadow2" class="shadow">
-              <img class="lzy_img" src="./static/loading1.gif" data-src="${anime.image}" />
+              <img class="lzy_img" data-src="${anime.image}" />
             </div>
             <div class="la-details">
               <h3>${anime.title}</h3>
@@ -137,6 +153,22 @@ class RecentAnimes {
         .join("");
 
       this.target.innerHTML += RECENT_HTML;
+
+      // Initialize lazy loading for recent animes
+      const imageObserver = new IntersectionObserver(
+        (entries, imgObserver) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const lazyImage = entry.target;
+              lazyImage.src = lazyImage.dataset.src;
+            }
+          });
+        }
+      );
+      const arr = document.querySelectorAll("img.lzy_img");
+      arr.forEach((v) => {
+        imageObserver.observe(v);
+      });
     } catch (error) {
       console.error(`Failed To Load Recent Animes Page : ${page}`);
       page += 1;
@@ -165,7 +197,7 @@ function showSlides(n: number): void {
 
 async function showSlides2(): Promise<void> {
   if (clickes == 1) {
-    await sleep(10000);
+    await new Promise((resolve) => setTimeout(resolve, 10000));
     clickes = 0;
   }
   let i;
@@ -191,27 +223,6 @@ function currentSlide(n: number): void {
   clickes = 1;
 }
 
-function RefreshLazyLoader(): void {
-  const imageObserver = new IntersectionObserver(
-    (entries, imgObserver) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const lazyImage = entry.target;
-          lazyImage.src = lazyImage.dataset.src;
-        }
-      });
-    }
-  );
-  const arr = document.querySelectorAll("img.lzy_img");
-  arr.forEach((v) => {
-    imageObserver.observe(v);
-  });
-}
-
-function sleep(ms: number): Promise<void> {
-  return Promise.resolve();
-}
-
 // To load more animes when scrolled to bottom
 let page = 2;
 let isLoading = false;
@@ -235,7 +246,7 @@ async function loadAnimes(): Promise<void> {
               <div class="dubb dubb2">EP ${anime.episode.split(" ")[1]}</div>
             </div>
             <div id="shadow2" class="shadow">
-              <img class="lzy_img" src="./static/loading1.gif" data-src="${anime.image}" />
+              <img class="lzy_img" data-src="${anime.image}" />
             </div>
             <div class="la-details">
               <h3>${anime.title}</h3>
@@ -245,7 +256,23 @@ async function loadAnimes(): Promise<void> {
         )
         .join("");
       document.querySelector(".recento").innerHTML += RECENT_HTML;
-      RefreshLazyLoader();
+
+      // Initialize lazy loading for newly loaded animes
+      const imageObserver = new IntersectionObserver(
+        (entries, imgObserver) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const lazyImage = entry.target;
+              lazyImage.src = lazyImage.dataset.src;
+            }
+          });
+        }
+      );
+      const arr = document.querySelectorAll("img.lzy_img");
+      arr.forEach((v) => {
+        imageObserver.observe(v);
+      });
+
       console.log("Recent animes loaded");
       page += 1;
       isLoading = false;
@@ -258,26 +285,36 @@ async function loadAnimes(): Promise<void> {
 }
 
 // Add a scroll event listener
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   try {
-    const data = getJson<{ anilistTrending: any[]; gogoPopular: any[] }>(IndexApi);
-    const anilistTrending = (await data).anilistTrending;
-    const gogoanimePopular = (await data).gogoPopular;
+    const data = await getJson<{ anilistTrending: any[]; gogoPopular: any[] }>(IndexApi);
+    const anilistTrending = data.anilistTrending;
+    const gogoanimePopular = data.gogoPopular;
 
     new Slider(shuffle(anilistTrending), document.querySelector(".slideshow-container")).createSlides();
-    RefreshLazyLoader();
-    showSlides(slideIndex);
-    showSlides2();
-    console.log("Sliders loaded");
 
     new PopularAnimes(shuffle(gogoanimePopular), document.querySelector(".popularg")).createPopularAnimes();
-    RefreshLazyLoader();
-    console.log("Popular animes loaded");
 
     const recentAnimes = new RecentAnimes(document.querySelector(".recento"));
     recentAnimes.loadRecentAnimes();
-    RefreshLazyLoader();
-    console.log("Recent animes loaded");
+
+    // Initialize lazy loading for popular and slider animes
+    const imageObserver = new IntersectionObserver(
+      (entries, imgObserver) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const lazyImage = entry.target;
+            lazyImage.src = lazyImage.dataset.src;
+          }
+        });
+      }
+    );
+    const arr = document.querySelectorAll("img.lzy_img");
+    arr.forEach((v) => {
+      imageObserver.observe(v);
+    });
+
+    showSlides2();
   } catch (error) {
     console.error(error);
   }
