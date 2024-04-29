@@ -1,15 +1,15 @@
 // Api urls
 
-const ProxyApi = "https://proxy.techzbots1.workers.dev/?u=";
-const animeapi = "/anime/";
-const recommendationsapi = "/recommendations/";
+const ProxyApi = "https://proxy.techzbots1.workers.dev/?u="; // Proxy API URL for fetching data from other servers
+const animeapi = "/anime/"; // Base URL for anime API
+const recommendationsapi = "/recommendations/"; // Base URL for anime recommendations API
 
 // Api Server Manager
 
-const AvailableServers = ["https://api100.anime-dex.workers.dev"];
+const AvailableServers = ["https://api100.anime-dex.workers.dev"]; // List of available API servers
 
 function getApiServer() {
-    return AvailableServers[Math.floor(Math.random() * AvailableServers.length)];
+    return AvailableServers[Math.floor(Math.random() * AvailableServers.length)]; // Returns a random API server from the available list
 }
 
 // Usefull functions
@@ -19,7 +19,7 @@ async function getJson(path, errCount = 0) {
     let url = ApiServer + path;
 
     if (errCount > 2) {
-        throw `Too many errors while fetching ${url}`;
+        throw `Too many errors while fetching ${url}`; // Throws an error if there are too many fetch errors
     }
 
     if (errCount > 0) {
@@ -29,20 +29,20 @@ async function getJson(path, errCount = 0) {
     }
 
     try {
-        const _url_of_site = new URL(window.location.href);
-        const referer = _url_of_site.origin;
-        const response = await fetch(url, { headers: { referer: referer } });
-        return await response.json();
+        const _url_of_site = new URL(window.location.href); // Create a new URL object from the current page URL
+        const referer = _url_of_site.origin; // Get the origin of the current page URL
+        const response = await fetch(url, { headers: { referer: referer } }); // Fetch the data from the API server with the referer header set to the current page URL origin
+        return await response.json(); // Return the JSON data
     } catch (errors) {
-        console.error(errors);
-        return getJson(path, errCount + 1);
+        console.error(errors); // Log any fetch errors
+        return getJson(path, errCount + 1); // Retry fetching the data with an increased error count
     }
 }
 
 function getGenreHtml(genres) {
     let ghtml = "";
     for (let i = 0; i < genres.length; i++) {
-        ghtml += `<a>${genres[i].trim()}</a>`;
+        ghtml += `<a>${genres[i].trim()}</a>`; // Create HTML for the anime genres
     }
     return ghtml;
 }
@@ -52,48 +52,48 @@ async function RefreshLazyLoader() {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 const lazyImage = entry.target;
-                lazyImage.src = lazyImage.dataset.src;
+                lazyImage.src = lazyImage.dataset.src; // Set the source of the lazy-loaded image to its data-src attribute value
             }
         });
     });
     const arr = document.querySelectorAll("img.lzy_img");
     arr.forEach((v) => {
-        imageObserver.observe(v);
+        imageObserver.observe(v); // Observe all lazy-loaded images and load them when they become visible
     });
 }
 
 function getAnilistTitle(title) {
     if (title["userPreferred"] != null) {
-        return title["userPreferred"];
+        return title["userPreferred"]; // Return the user-preferred title if it exists
     } else if (title["english"] != null) {
-        return title["english"];
+        return title["english"]; // Return the English title if it exists
     } else if (title["romaji"] != null) {
-        return title["romaji"];
+        return title["romaji"]; // Return the Romaji title if it exists
     } else if (title["native"] != null) {
-        return title["native"];
+        return title["native"]; // Return the native title if it exists
     } else {
-        return "Unknown";
+        return "Unknown"; // Return "Unknown" if no title is found
     }
 }
 
 function getAnilistOtherTitle(title, current) {
     if (title["userPreferred"] != null && title["userPreferred"] != current) {
-        return title["userPreferred"];
+        return title["userPreferred"]; // Return the user-preferred title if it exists and is different from the current title
     } else if (title["english"] != null && title["english"] != current) {
-        return title["english"];
+        return title["english"]; // Return the English title if it exists and is different from the current title
     } else if (title["romaji"] != null && title["romaji"] != current) {
-        return title["romaji"];
+        return title["romaji"]; // Return the Romaji title if it exists and is different from the current title
     } else if (title["native"] != null && title["native"] != current) {
-        return title["native"];
+        return title["native"]; // Return the native title if it exists and is different from the current title
     } else {
-        return "Unknown";
+        return "Unknown"; // Return "Unknown" if no title is found
     }
 }
 
 // Function to get anime info from gogo id
 async function loadAnimeFromGogo(data) {
     document.documentElement.innerHTML = document.documentElement.innerHTML
-        .replaceAll("TITLE", data["name"])
+        .replaceAll("TITLE", data["name"]) // Replace placeholders in the HTML with actual data
         .replaceAll("IMG", data["image"])
         .replaceAll("LANG", "EP " + data["episodes"].length)
         .replaceAll("TYPE", data["type"])
@@ -209,7 +209,7 @@ function retryImageLoad(img) {
             const t = Number(ImageUrl.split("?t=")[1]) + 1;
 
             // Retry 10 times
-            if (t < 5) {
+            if (t < 10) {
                 img.src = ImageUrl.split("?t=")[0] + "?t=" + String(t);
             }
         } else {
